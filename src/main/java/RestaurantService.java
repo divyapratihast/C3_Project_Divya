@@ -33,5 +33,13 @@ public class RestaurantService {
         return restaurants;
     }
 
+    public float totalAmount(List<Item> items){
+        Float amount = 0.0f;
+        for( Item item : items){
+            amount += item.getPrice();
+        }
+        return amount;
+    }
+
 }
 
