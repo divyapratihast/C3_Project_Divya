@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.*;
+import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
 
 import java.time.LocalTime;
 
@@ -10,7 +11,7 @@ class RestaurantServiceTest {
     RestaurantService service = new RestaurantService();
     Restaurant restaurant;
     //REFACTOR ALL THE REPEATED LINES OF CODE
-
+   @BeforeEach
     public void setUp() {
         LocalTime openingTime = LocalTime.parse("10:30:00");
         LocalTime closingTime = LocalTime.parse("22:00:00");
@@ -21,8 +22,10 @@ class RestaurantServiceTest {
     @Test
     public void searching_for_existing_restaurant_should_return_expected_restaurant_object() throws restaurantNotFoundException {
         //WRITE UNIT TEST CASE HERE
-        setUp();
-        assertEquals(service.findRestaurantByName("Amelie's cafe"),restaurant);
+        //Restaurant actualValue = service.findRestaurantByName("Amelie's cafe");
+       // assertTrue(new ReflectionEquals(actualValue, "menu").matches(restaurant));
+       // assertIterableEquals(restaurant.getMenu(),actualValue.getMenu());
+        assertEquals(service.findRestaurantByName("Amelie's cafe").getName(),restaurant.getName());
     }
 
 
@@ -30,7 +33,6 @@ class RestaurantServiceTest {
     @Test
     public void searching_for_non_existing_restaurant_should_throw_exception() throws restaurantNotFoundException {
         //WRITE UNIT TEST CASE HERE
-        setUp();
         assertThrows(restaurantNotFoundException.class, () -> service.findRestaurantByName("KHN"));
     }
     //<<<<<<<<<<<<<<<<<<<<SEARCHING>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -41,7 +43,6 @@ class RestaurantServiceTest {
     //>>>>>>>>>>>>>>>>>>>>>>ADMIN: ADDING & REMOVING RESTAURANTS<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     @Test
     public void remove_restaurant_should_reduce_list_of_restaurants_size_by_1() throws restaurantNotFoundException {
-        setUp();
         restaurant.addToMenu("Sweet corn soup",119);
         restaurant.addToMenu("Vegetable lasagne", 269);
 
@@ -52,7 +53,6 @@ class RestaurantServiceTest {
 
     @Test
     public void removing_restaurant_that_does_not_exist_should_throw_exception() throws restaurantNotFoundException {
-        setUp();
         restaurant.addToMenu("Sweet corn soup",119);
         restaurant.addToMenu("Vegetable lasagne", 269);
 
@@ -61,7 +61,6 @@ class RestaurantServiceTest {
 
     @Test
     public void add_restaurant_should_increase_list_of_restaurants_size_by_1(){
-        setUp();
         restaurant.addToMenu("Sweet corn soup",119);
         restaurant.addToMenu("Vegetable lasagne", 269);
 
